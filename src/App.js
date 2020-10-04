@@ -4,6 +4,7 @@ import { processAudio } from './core/processAudio'
 import './App.css';
 import IconButton from '@material-ui/core/IconButton';
 import MicIcon from '@material-ui/icons/Mic';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import PlayArrowButton from '@material-ui/icons/PlayArrow';
 
 
@@ -91,6 +92,21 @@ function App() {
           }
         </IconButton>
       </div>
+      <IconButton
+        href="https://github.com/bohyunjung/tenet"
+        target="_blank"
+        style={{
+          position: "absolute",
+          right: "5vw",
+          top: "5vw"
+        }}
+      >
+        <GitHubIcon
+          style={{
+            fontSize: 40,
+          }}
+        />
+      </IconButton>
     </div>
   );
 }
