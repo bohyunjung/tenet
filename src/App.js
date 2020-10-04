@@ -40,6 +40,10 @@ function App() {
   }, []);
 
   function record() {
+    if (!mediaRecorder) {
+        alert("지원하지 않는 환경입니다.\nnot supported in this environment.")
+        return
+    }
     setBlocked(true);
     mediaRecorder.startRecording();
     setTimeout(() => {
