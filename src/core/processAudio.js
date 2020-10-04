@@ -5,11 +5,11 @@ function _reverseAudio(someBuffer, n) {
 }
 
 export function processAudio(blob) {
-    let AudioContext = window.AudioContext || window.webkitAudioContext;
-    let context = new AudioContext();
+    let context = new (window.AudioContext || window.webkitAudioContext)();
     let source = context.createBufferSource();
 
     Blob.prototype.arrayBuffer = Blob.prototype.arrayBuffer || altArrayBuffer;
+    
     blob.arrayBuffer().then(arrayBuffer => {
         context.decodeAudioData(arrayBuffer, (buffer) => {
             let numChannels = buffer.numberOfChannels;
