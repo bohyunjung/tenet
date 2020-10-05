@@ -1,6 +1,6 @@
 # tenet
 
-An inverted-speech translator inspired by Tenet (2020)
+An inverted-speech translator inspired by Movie [Tenet](https://www.imdb.com/title/tt6723592/) (2020)
 
 > This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
