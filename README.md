@@ -20,8 +20,6 @@ You will also see any lint errors in the console.
 ## Deploying with Docker
 
 ```
-git clone https://github.com/bohyun-jung/tenet.git
-cd tenet
 ./build-and-run.sh
 ```
 
