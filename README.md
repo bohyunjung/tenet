@@ -8,6 +8,9 @@ An inverted-speech translator inspired by Movie [Tenet](https://www.imdb.com/tit
 
 In the project directory, you can run:
 
+### `npm install -g yarn`
+### `yarn install`
+You need a node version above v10.0
 ### `yarn start`
 
 Runs the app in the development mode.<br />
