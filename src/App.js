@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import RecordRTC from 'recordrtc';
+
+import ts from "./core/singleton.js";
 import { processAudio } from './core/processAudio'
-import './App.css';
+
 import IconButton from '@material-ui/core/IconButton';
 import MicIcon from '@material-ui/icons/Mic';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import PlayArrowButton from '@material-ui/icons/PlayArrow';
 
+import './App.css';
 
 function App() {
   const [appStatus, setAppStatus] = useState("record");
   const [blocked, setBlocked] = useState(false);
-  const [source, setSource] = useState(null);
-  const [mediaRecorder, setMediaRecorder] = useState(null);
+
   const umConstraints = { audio: true };
   const mrConstraints = {
     checkForInactiveTracks: true,
@@ -23,43 +25,41 @@ function App() {
     type: 'audio',
   }
 
-  useEffect(() => {
-    void async function init() {
-      try {
-        let um = await navigator.mediaDevices.getUserMedia(umConstraints);
-        setMediaRecorder(new RecordRTC(um, mrConstraints));
-      } catch (e) {
-        console.log(e.message);
-      }
-    }();
-
-    return () => {
-      if (typeof mediaRecorder.destroy !== 'undefined') {
-        mediaRecorder.destroy();
-      }
-    };
-  }, []);
+  async function initMediaRecorder() {
+    ts.userMedia = await navigator.mediaDevices.getUserMedia(umConstraints)
+    ts.mediaRecorder = RecordRTC(ts.userMedia, mrConstraints);
+  }
 
   function record() {
-    if (!mediaRecorder) {
+    initMediaRecorder().then(() => {
+
+      setBlocked(true);
+      ts.mediaRecorder.startRecording();
+
+      setTimeout(() => {
+        ts.mediaRecorder.stopRecording(() => {
+          ts.source = processAudio(ts.mediaRecorder.getBlob());
+          ts.mediaRecorder.reset();
+          setAppStatus("play");
+          setBlocked(false);
+          ts.userMedia.getTracks()[0].stop();
+        });
+      }, 3000);
+
+    }).catch(function (e) {
+      console.error(e.name);
+      console.error(e.message);
+      if (!ts.mediaRecorder) {
         alert("지원하지 않는 환경입니다.\nnot supported in this environment.")
-        return
-    }
-    setBlocked(true);
-    mediaRecorder.startRecording();
-    setTimeout(() => {
-      mediaRecorder.stopRecording(function () {
-        setSource(processAudio(mediaRecorder.getBlob()));
-        mediaRecorder.reset();
-        setAppStatus("play");
-        setBlocked(false);
-      });
-    }, 3000)
+      } else {
+        alert("오류가 발생했습니다.\nan error occurred.")
+      }
+    });
   }
 
   function play() {
     setBlocked(true);
-    source.start(0);
+    ts.source.start(0);
     setTimeout(() => {
       setAppStatus("record");
       setBlocked(false);

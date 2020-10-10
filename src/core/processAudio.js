@@ -1,4 +1,4 @@
-import { altArrayBuffer }  from '../utils/altArrayBuffer'
+import { altArrayBuffer } from '../utils/altArrayBuffer'
 
 function _reverseAudio(someBuffer, n) {
     Array.prototype.reverse.call(someBuffer.getChannelData(n));
@@ -9,7 +9,7 @@ export function processAudio(blob) {
     let source = context.createBufferSource();
 
     Blob.prototype.arrayBuffer = Blob.prototype.arrayBuffer || altArrayBuffer;
-    
+
     blob.arrayBuffer().then(arrayBuffer => {
         context.decodeAudioData(arrayBuffer, (buffer) => {
             let numChannels = buffer.numberOfChannels;
