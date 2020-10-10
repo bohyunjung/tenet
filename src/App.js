@@ -8,12 +8,19 @@ import IconButton from '@material-ui/core/IconButton';
 import MicIcon from '@material-ui/icons/Mic';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import PlayArrowButton from '@material-ui/icons/PlayArrow';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import './App.css';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function App() {
   const [appStatus, setAppStatus] = useState("record");
   const [blocked, setBlocked] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
   const umConstraints = { audio: true };
   const mrConstraints = {
@@ -50,7 +57,7 @@ function App() {
       console.error(e.name);
       console.error(e.message);
       if (!ts.mediaRecorder) {
-        alert("지원하지 않는 환경입니다.\nnot supported in this environment.")
+        setSnackbarOpen(true);
       } else {
         alert("오류가 발생했습니다.\nan error occurred.")
       }
@@ -65,6 +72,14 @@ function App() {
       setBlocked(false);
     }, 3500);
   }
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
 
   return (
     <div className="App">
@@ -107,6 +122,15 @@ function App() {
           }}
         />
       </IconButton>
+
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity="error">
+          다른 브라우저에서 시도해주세요.<br/>
+          Please try in a different browser.<br/>
+          📲 iOS: Safari, Android: Chrome
+        </Alert>
+      </Snackbar>
+
     </div>
   );
 }
