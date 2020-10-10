@@ -2,6 +2,11 @@
 
 An inverted-speech translator inspired by Movie [Tenet](https://www.imdb.com/title/tt6723592/) (2020)
 
+## Browsers Support
+
+The list of this app's supported browsers is mainly dependent on [muaz-khan/RecordRTC](https://github.com/muaz-khan/RecordRTC). <br/>
+Please refer to https://github.com/muaz-khan/RecordRTC#browsers-support.
+
 ## Running app in the dev mode
 
 ```
