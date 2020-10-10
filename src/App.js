@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RecordRTC from 'recordrtc';
 
 import ts from "./core/singleton.js";
@@ -22,7 +22,6 @@ function App() {
   const [blocked, setBlocked] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
-  const umConstraints = { audio: true };
   const mrConstraints = {
     checkForInactiveTracks: true,
     mimeType: 'audio/ogg',
@@ -31,6 +30,13 @@ function App() {
     recorderType: RecordRTC.StereoAudioRecorder,
     type: 'audio',
   }
+  const umConstraints = { audio: true };
+
+  useEffect(() => {
+    if(!navigator.mediaDevices) {
+      setSnackbarOpen(true);
+    }
+  }, [])
 
   async function initMediaRecorder() {
     ts.userMedia = await navigator.mediaDevices.getUserMedia(umConstraints)
