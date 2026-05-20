@@ -1,32 +1,214 @@
-.App {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0d0d14;
+  color: #e8e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+  position: relative;
+}
+
+/* GitHub link */
+.github-link {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: rgba(232, 232, 240, 0.35);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.github-link:hover {
+  color: rgba(232, 232, 240, 0.85);
+}
+
+/* Main layout */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+/* Header */
+.header {
   text-align: center;
 }
 
-.record-true {
-  height: 100vh;
-  background: rgba(0, 0, 255, 1);
-
-  -webkit-transition: background .5s;
-  -moz-transition: background .5s;
-  -o-transition: background .5s;
-  transition: background .5s;
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  color: rgba(232, 232, 240, 0.92);
 }
 
-.play-false, .play-true {
-  height: 100vh;
-  background: rgba(255, 0, 0, 1);
-
-  -webkit-transition: background .5s;
-  -moz-transition: background .5s;
-  -o-transition: background .5s;
-  transition: background .5s;
+.subtitle {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: rgba(232, 232, 240, 0.35);
+  text-transform: uppercase;
 }
 
-.record-false {
-  height: 100vh;
-  background: rgba(255, 255, 255, 1);
-  -webkit-transition: background .5s ease-out;
-  -moz-transition: background .5s ease-out;
-  -o-transition: background .5s ease-out;
-  transition: background .5s ease-out;
+/* Controls */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* Button wrapper — holds button + SVG ring */
+.btn-wrap {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main action button */
+.btn {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 232, 240, 0.1);
+  background: rgba(232, 232, 240, 0.06);
+  color: rgba(232, 232, 240, 0.85);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.15s ease, color 0.25s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.btn:hover:not(:disabled) {
+  background: rgba(232, 232, 240, 0.12);
+  border-color: rgba(232, 232, 240, 0.2);
+  transform: scale(1.04);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.btn:disabled {
+  cursor: default;
+}
+
+/* State variants */
+.btn--recording {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  animation: pulse-record 1.4s ease-in-out infinite;
+}
+
+.btn--processing {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.25);
+  color: rgba(199, 200, 255, 0.8);
+}
+
+.btn--ready {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #a5b4fc;
+}
+
+.btn--ready:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.28);
+  border-color: rgba(99, 102, 241, 0.6);
+}
+
+.btn--playing {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.25);
+  color: rgba(165, 180, 252, 0.7);
+  animation: pulse-play 1.2s ease-in-out infinite;
+}
+
+.btn--error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+}
+
+.btn__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Progress ring */
+.ring {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 144px;
+  height: 144px;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.ring__bg {
+  fill: none;
+  stroke: rgba(239, 68, 68, 0.15);
+  stroke-width: 2.5;
+}
+
+.ring__fill {
+  fill: none;
+  stroke: rgba(239, 68, 68, 0.75);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+/* Status label */
+.status-label {
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: rgba(232, 232, 240, 0.4);
+  min-height: 1.5em;
+  text-align: center;
+  transition: color 0.3s ease;
+  padding: 0 16px;
+  max-width: 280px;
+}
+
+/* Animations */
+@keyframes pulse-record {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.25); }
+  50%       { box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+}
+
+@keyframes pulse-play {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.2); }
+  50%       { box-shadow: 0 0 0 14px rgba(99, 102, 241, 0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
 }
