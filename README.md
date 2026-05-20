@@ -1,31 +1,50 @@
-# tenet
+# TENET · reverse playback
 
-An inverted-speech translator inspired by Movie [Tenet](https://www.imdb.com/title/tt6723592/) (2020)
+Record a few seconds of audio and hear it played back in reverse — inspired by the film [Tenet](https://www.imdb.com/title/tt6723592/) (2020).
 
-## Browsers Support
+Built with React 18 + Vite. Hosted on [Vercel](https://vercel.com).
 
-The list of this app's supported browsers is mainly dependent on [muaz-khan/RecordRTC](https://github.com/muaz-khan/RecordRTC). <br/>
-Please refer to https://github.com/muaz-khan/RecordRTC#browsers-support.
+## Browser support
 
-## Running app in the dev mode
+Uses the native [MediaRecorder API](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder) and [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API). Works in all modern desktop and mobile browsers.
 
-```
-npm install -g yarn
-yarn install
-yarn start
-```
-> You need node version above v10.0
+| Browser | Support |
+|---|---|
+| Chrome / Edge 79+ | ✅ |
+| Firefox 25+ | ✅ |
+| Safari 14.1+ | ✅ |
+| iOS Safari 14.5+ | ✅ |
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Local development
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Requires **Node.js v18+**.
 
-## Deploying with Docker
-
-```
-./build-and-run.sh
+```bash
+npm install
+npm run dev
 ```
 
-Open [http://localhost:8002](http://localhost:8002).
+Open [http://localhost:5173](http://localhost:5173).
+
+## Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/bohyunjung/tenet)
+
+Vercel auto-detects the Vite framework. No extra configuration needed.
+
+| Setting | Value |
+|---|---|
+| Framework | Vite |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Install command | `npm install` |
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start dev server at localhost:5173 |
+| `npm run build` | Production build → `dist/` |
+| `npm run preview` | Preview production build locally |
+| `npm test` | Run unit tests |
+
